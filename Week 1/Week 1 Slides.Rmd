@@ -1,0 +1,42 @@
+---
+title: "Week 1 Slides"
+subtitle: "ENGE 6614 Spring 2022"
+author: "Andrew Katz"
+institute: "Department of Engineering Education, VT"
+date: "2022/01/11 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+background-image: url(https://upload.wikimedia.org/wikipedia/commons/b/be/Sharingan_triple.svg)
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+???
+
+Image credit: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Sharingan_triple.svg)
+
+---
+class: center, middle
+
+Week 1 Materials
+
+---
+class: inverse, center, middle
+
+# Get Started
+
+---
+
+# Welcome to class!
+
+```{r eval=FALSE, tidy=FALSE}
+devtools::install_github("yihui/xaringan")
+```
