@@ -26,7 +26,7 @@ Image credit: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Sharin
 ---
 class: center, middle
 
-Week 1 Materials
+# Week 1 Materials
 
 ---
 class: inverse, center, middle
