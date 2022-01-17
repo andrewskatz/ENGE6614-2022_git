@@ -17,6 +17,16 @@ You can use # to mark a heading
 ## Heading 2
 ### Heading 3
 #### And so on
+
+You can also surround characters with * to make things *bold* and _ to make things _italics_
+
+Or use * or - to make bullet points
+* bullet one
+* bullet two
+
+- bullet three
+
+But all of this will only show up when you have "knit" this .rmd file to a .pdf or .doc or .html file. You can do this by clicking "knit" from the dropdown menu at the top of the editor window
 ```{r}
 x <- seq(1:10)
 y <- 2*x +4
