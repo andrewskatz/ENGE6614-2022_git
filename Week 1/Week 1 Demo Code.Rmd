@@ -10,7 +10,13 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+This is an RMD file
 
+You can use # to mark a heading
+# Heading 1
+## Heading 2
+### Heading 3
+#### And so on
 ```{r}
 x <- seq(1:10)
 y <- 2*x +4
