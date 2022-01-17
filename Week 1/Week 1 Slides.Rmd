@@ -19,6 +19,8 @@ background-image: url(https://upload.wikimedia.org/wikipedia/commons/b/be/Sharin
 options(htmltools.dir.version = FALSE)
 ```
 
+
+These slides are made using the xaringan package in RStudio
 ???
 
 Image credit: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Sharingan_triple.svg)
@@ -31,7 +33,7 @@ class: center, middle
 ---
 class: inverse, center, middle
 
-# Get Started
+# Get Started with R and RStudio
 
 ---
 
@@ -40,3 +42,8 @@ class: inverse, center, middle
 ```{r eval=FALSE, tidy=FALSE}
 devtools::install_github("yihui/xaringan")
 ```
+
+---
+
+In future weeks we will _probably_ be using slides, but this may change as we progress...
+
