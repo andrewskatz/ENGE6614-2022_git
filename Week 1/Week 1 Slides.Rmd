@@ -39,11 +39,11 @@ class: inverse, center, middle
 
 # Welcome to class!
 
-```{r eval=FALSE, tidy=FALSE}
-devtools::install_github("yihui/xaringan")
-```
+We will use a Google Doc to structure much of today's class since there is not a huge need to use slides for what we will be doing.
 
 ---
 
 In future weeks we will _probably_ be using slides, but this may change as we progress...
+
+(this will depend on how much we think we need to use slides in class to structure discussion)
 
