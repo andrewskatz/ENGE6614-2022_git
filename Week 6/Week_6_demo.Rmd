@@ -1,0 +1,591 @@
+---
+title: "Week_6_demo"
+author: "Katz"
+date: "2/21/2021"
+output: html_document
+---
+### Script for class discussion on multiple regression
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(psych)
+library(kableExtra)
+library(broom)
+library(car)
+```
+
+
+
+
+### Explore the child aggression data set #########
+
+```{r}
+
+ca_df <- read.table("./data/ChildAggression.dat", header = TRUE)
+
+```
+
+Method 1 for quickly getting summary statistics for the data you have, using the built-in summary() function
+
+
+```{r}
+summary(ca_df)
+```
+
+Method 2, using the describe() function from the psych package
+
+```{r}
+psych::describe(ca_df)
+```
+
+Spot check: where do the "se" values come from?
+
+
+# now that we have seen some of the numbers, let's try to visualize some of these data
+# let's try to visualize the data while we're at it
+
+
+```{r}
+
+ca_df %>% 
+  ggplot(aes(x = Aggression)) +
+  geom_histogram()
+
+
+```
+
+
+We could do this for each of our variables or we could try something a little fancier by using the pivot_longer() function to make a longer dataframe and plot everything at once
+
+
+First, create the long dataframe. After running this command, it's a good idea to view the new data frame to make sure this did what you intended
+
+
+```{r}
+ca_df_long <- ca_df %>% 
+  pivot_longer(cols = Aggression:Parenting_Style, names_to = "variable_name", values_to = "variable_value")
+
+```
+
+After making sure everything looks in order, run the same plot command with the addition of a facet.
+
+Note that the fill = variable_name tells R to color the plot with different colors by variable_name and the theme(...) tells R to get rid of the legend that automatically shows up
+
+
+```{r}
+
+ca_df_long %>% 
+  ggplot(aes(x = variable_value, fill = variable_name)) +
+  geom_histogram() +
+  facet_wrap(variable_name ~.) +
+  theme(legend.position = "none")
+```
+
+
+From this we should be able to see that everything is normally distributed and appears to be standardized
+
+Let's try a different kind of visualization: the empirical cumulative distribution function (eCDF) (sounds fancy, but it's not bad)
+
+```{r}
+
+ca_df_long %>% 
+  ggplot(aes(x = variable_value)) +
+  stat_ecdf(geom = "point") +
+  facet_wrap(variable_name ~.) 
+
+
+```
+
+It looks like a bunch of distorted s shapes. In order to understand what is going on here, we should take a brief detour into the world of cumulative distribution functions (CDFs), eCDFs, and eventually QQ plots. This detour is at the end of the markdown file. 
+
+
+
+
+
+
+
+
+Now we can try a third way of visualizing our data - QQ plots!
+
+As before, we can plot each variable with separate calls or plot them all together with the long data frame
+
+```{r}
+
+ca_df %>% 
+  ggplot(aes(sample=Aggression)) +
+  stat_qq() +
+  stat_qq_line()
+
+
+```
+
+
+```{r}
+
+ca_df_long %>% 
+  ggplot(aes(sample=variable_value)) +
+  stat_qq() +
+  stat_qq_line() +
+  facet_wrap(variable_name ~ .)
+
+
+```
+
+
+
+## Multiple regression
+
+
+Let's create a model of child aggression as a function of parenting style and sibling aggression
+```{r}
+model_fam <- lm(Aggression ~ Parenting_Style + Sibling_Aggression, data = ca_df)
+```
+
+Run the summary on the model
+```{r}
+summary(model_fam)
+```
+
+
+This will be helpful later when we want to plot the residuals of the model.
+
+
+Let's create another model of child aggression as a function of computer games and television.
+
+```{r}
+model_screens <- lm(Aggression ~ Computer_Games + Television, data = ca_df)
+
+summary(model_screens)
+```
+
+Now let's see what the full model looks like with all five predictors
+```{r}
+model_all <- lm(Aggression ~ Parenting_Style + Sibling_Aggression + Diet + Computer_Games + Television, 
+                data = ca_df)
+summary(model_all)
+```
+
+We can get the output from the summary() function but as a tibble instead:
+```{r}
+broom::tidy(model_all, conf.int = TRUE)
+```
+
+We can also get summary statistics like the R^2, F-statistics, and AIC from the glance() function in the Broom package
+```{r}
+broom::glance(model_all)
+```
+
+Let's stop here to interpret what the model output is telling us(specifically, the coefficient estimates, the standard errors, the p values, and the R^2 values).
+
+Notice the Television p value and standard errors (especially how the estimate is so close to zero, and its 95% confidence interval crosses 0)
+
+
+
+
+We can also have R handle factors automatically in a regression model for us.
+
+First, we will generate a new factor for the child aggression data - the handedness of the child (left vs right).
+
+This code generates a random handedness for each of the 666 students and assigns it to a new column in ca_df
+
+```{r}
+handed_levels <- c("left", "right")
+handed_vector <- sample(handed_levels, size = nrow(ca_df), replace = TRUE, prob = c(0.4, 0.6))
+ca_df$Handedness <- handed_vector
+```
+
+Check to make sure we have all the predictor names correct to add into the linear model.
+
+```{r}
+names(ca_df)
+model_all_3 <- lm(Aggression ~ Parenting_Style + Sibling_Aggression + Television + Computer_Games + Diet + Handedness, data = ca_df)
+```
+
+Check the model summary and notice how the Handedness predictor variable was handled.
+ 
+```{r}
+summary(model_all_3)
+
+lm(Aggression ~ ., data=ca_df)
+```
+
+
+
+
+
+### Assumption testing
+
+Note: A lot of the things we are doing here can be accomplished with the augment() function in the broom package
+
+Check for correlation between adjacent residual terms using Durbin-Watson test 
+
+```{r}
+
+dwt(model_all)
+
+```
+Check for multicollinearity.
+```{r}
+
+car::vif(model_all)
+
+```
+
+
+
+Now let's go back and check for influential cases following the procedure Field does in the textbook.
+
+```{r}
+ca_df$residuals <- resid(model_all) # notice how this is the same as looking at View(model_all) and then residuals or model_all$residuals
+#model_all$residuals
+ca_df$standardized.residuals <- rstandard(model_all)
+ca_df$studentized.residuals <- rstudent(model_all)
+ca_df$cooks.distance <- cooks.distance(model_all)
+ca_df$dfbeta <- dfbeta(model_all)
+ca_df$dffit <- dffits(model_all)
+ca_df$leverage <- hatvalues(model_all)
+ca_df$covariance.ratios <- covratio(model_all)
+```
+
+Now that we have all of the extra model fit statistics calculated, we can add a new olumn using a different method than what he does in the textbook (but this accomplishes the same task).
+
+We are using a combination of mutate() and case_when() instead of the traditional logical test subsetting that we see in the bookon pp. 289-290
+
+```{r}
+ca_df <- ca_df %>% 
+  mutate(large.residual = case_when(standardized.residuals > 2 | standardized.residuals < -2 ~ TRUE,
+                                    abs(standardized.residuals) <= 2 ~ FALSE))
+```
+
+Now let's just look at the observations where there was a large residual (absolute value > 2)
+
+```{r}
+ca_df %>% filter(large.residual == TRUE) %>% head()
+
+```
+
+There's a problem here because we don't preserve observation numbers. In general, it might be a good idea to give each observation an ID with something like
+
+```{r}
+dim(ca_df)[1]
+```
+
+```{r}
+ca_df <- ca_df %>% 
+  mutate(ID = seq(1:dim(ca_df)[1]))
+```
+
+In the tidyverse, there is an even simpler way to do this with the rowid_to_column() function!
+
+```{r}
+ca_df <- ca_df %>% 
+  rowid_to_column(var = "participant_id")
+```
+
+Now we can run the filter again and see which observations have large residuals
+
+```{r}
+ca_df %>% filter(large.residual == TRUE) %>% view()
+```
+
+
+
+
+Plot the residuals against the fitted values
+```{r}
+ca_df$fitted <- model_all$fitted.values
+
+```
+
+First, plot the distribution of the residuals by themselves
+
+```{r}
+histogram <- ca_df %>% 
+  ggplot(aes(x = studentized.residuals)) +
+  geom_histogram(aes(y = ..density..)) +
+  labs(x = "Studentized Residuals",
+       y = "Density")
+histogram
+```
+
+Now let's add a normal density on top of that for comparison
+
+```{r}
+histogram + stat_function(fun = dnorm, 
+                          args = list(mean = mean(ca_df$studentized.residuals, na.rm = TRUE), 
+                                      sd = sd(ca_df$studentized.residuals, na.rm = TRUE)), 
+                          color = "blue", size = 1)
+```
+
+Second, plot the residuals against the fitted values to make sure there are no systematic patterns
+
+```{r}
+ca_df %>% 
+  ggplot(aes(x = fitted, y = studentized.residuals)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(x = "Fitted Residual",
+       y = "Studentized Residual")
+```
+
+We can also skip all the fancy code from the book and use the plot() function on the model.
+
+R knows that this means we want to plot four fit plots
+
+```{r}
+par(mfrow=c(2,2)) # this changes the arrangement for the plots to show two rows and two columns of plots
+```
+
+
+```{r}
+plot(model_all)
+par(mfrow=c(1,1)) # this changes the plotting arrangement back to the default of one plot at a time
+```
+
+Note that we could also create a model that uses all our covariates as predictors with the following call
+
+```{r}
+model_all_2 <- lm(Aggression ~ ., data=ca_df)
+```
+
+Inspect the results to make sure it is giving the same results as before
+
+```{r}
+plot(model_all_2)
+summary(model_all_2)
+```
+
+
+
+
+Check how augment() works and which parts of the above it replicates
+
+```{r}
+augmented_model_all <- augment(model_all)
+```
+
+
+```{r}
+ca_df_long %>% 
+  ggplot(aes(x = variable_value, fill = variable_name)) +
+  geom_histogram(position = "identity", alpha = 0.5)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+### Detour: Cumulative Distribution Function (CDF), empirical CDF, and QQ Plot Discussion
+
+Our goal here is to visualize the cumulative distribution function for a normal distribution as a stepping stone toward undestanding QQ plots. We will use plots of the empirical cumulative distribution function (eCDF)
+
+
+As a way to visualize our data. Although we have not discussed eCDFs before, they are another tool you can use to visualize the distribution of quantitative data.
+
+We will also look at the effect of sample size on the kinds of plots that we may make when visualizing the distribution of data. 
+
+
+First, let's generate some data to help us see what these concepts are all about. 
+
+**Note** that We are generating data to make things easier on ourselves - we know the underlying data-generating process. So that lets us form an expectation of what *should* happen. These kinds of toy examples can be helpful for building an intuition about these concepts that we can then use in our own work.
+
+```{r}
+df_1 <- tibble(x = round(rnorm(n = 25, mean = 0, sd = 1), digits = 1), samp_size = rep(x = 25, times = 25))
+df_2 <- tibble(x = round(rnorm(n = 50, mean = 0, sd = 1), digits = 1), samp_size = rep(x = 50, times = 50))
+df_3 <- tibble(x = round(rnorm(n = 100, mean = 0, sd = 1), digits = 1), samp_size = rep(x = 100, times = 100))
+df_4 <- tibble(x = round(rnorm(n = 200, mean = 0, sd = 1), digits = 1), samp_size = rep(x = 200, times = 200))
+df_5 <- tibble(x = round(rnorm(n = 500, mean = 0, sd = 1), digits = 1), samp_size = rep(x = 500, times = 500))
+
+```
+
+Combine the generated data together into one data frame to make it easy to plot everything in one ggplot call.
+
+
+```{r}
+
+sample_df <- bind_rows(df_1, df_2, df_3, df_4, df_5)
+
+
+```
+
+
+Look at the empirical CDFs
+
+
+```{r}
+
+sample_df %>% 
+  ggplot(aes(x)) +
+  stat_ecdf(geom = "point") +
+  facet_grid(samp_size~.)
+
+
+```
+
+```{r}
+
+sample_df %>% 
+  ggplot(aes(x)) +
+  geom_histogram() +
+  facet_grid(samp_size~.)
+
+
+```
+
+
+
+In class, this should lead to a discussion about how to find quantiles now let's try to look at some QQ plots. 
+
+```{r}
+df_1 %>% 
+  ggplot(aes(sample=x)) +
+  stat_qq() +
+  stat_qq_line()
+```
+
+Let's try to wrap our heads around what is going on by looking at sorted versions of df_1 values
+
+
+```{r}
+
+head(df_1 %>% arrange(x))
+
+```
+
+Let's also look at the other end of the dataframe. We can do this either using arrange(desc(x)) or tail instead of head
+Confirm that they're basically two ways of accomplishing the same objective.
+
+
+```{r}
+
+head(df_1 %>% arrange(desc(x)))
+tail(df_1 %>% arrange(x))
+
+
+```
+
+
+End detour
+
+
+
+### Generating data for student happiness exercise.
+
+We are going to student happiness scores on a scale from 0 to 100 as a function of their time spent outdoors, time spent on Zoom, class standing, and department. 
+
+
+```{r}
+
+pop_size <- 5000
+sample_size <- 200
+
+
+pop_df <- tibble(standing = rep(c("undergrad", "masters", "phd"), 
+                 times = c(pop_size/2, pop_size/4, pop_size/4)))
+
+pop_df$discipline <- rep(c("mechanical", "civil", "electrical"), 
+                         length.out = pop_size)
+
+pop_df$min_outdoors <- round(runif(n = pop_size, min = 0, max = 300), 0)
+
+pop_df$min_zoom <- round(runif(n = pop_size, min = 0, max = 400), 0)
+
+pop_df <- pop_df %>% 
+  mutate(undergrad = case_when(standing == "undergrad" ~ 1,
+                           TRUE ~ 0),
+         masters = case_when(standing == "masters" ~ 1,
+                           TRUE ~ 0),
+         phd = case_when(standing == "phd" ~ 1,
+                           TRUE ~ 0),
+         civil = case_when(discipline == "civil" ~ 1,
+                           TRUE ~ 0),
+         mechanical = case_when(discipline == "mechanical" ~ 1,
+                           TRUE ~ 0),
+         electrical = case_when(discipline == "electrical" ~ 1,
+                           TRUE ~ 0))
+
+```
+
+With the predictors generated, we can now generate the happiness scores. 
+```{r}
+#pop_df <- pop_df %>% 
+#  mutate(happiness = 50 + -.2*(min_zoom+runif(n = 1, min = 10, max = 30)) + .1 * min_outdoors + 4*civil -.3 * mechanical)
+
+b_0 <- 50
+b_out <- 0.03
+b_zoom <- -0.05
+b_civ <- 6
+b_mech <- 2
+b_ele <- -3
+b_under <- 5
+b_masters <- -2
+b_phd <- 10
+
+pop_df$happiness <- b_0 + b_out*(pop_df$min_outdoors + rnorm(pop_size, 0, 40)) +
+  b_zoom*(pop_df$min_zoom + rnorm(pop_size, 0, 40)) + 
+  b_civ*(pop_df$civil + rnorm(pop_size, 0, 2)) + 
+  b_mech*pop_df$mechanical +
+  b_ele*pop_df$electrical + b_under * pop_df$undergrad + 
+  b_masters*pop_df$masters +
+  b_phd*pop_df$phd + round(rnorm(n = pop_size, mean = 0, sd = 10), 0)
+
+
+```
+
+We will save the full population dataset. That is what we will start with in class
+
+```{r}
+
+pop_df %>% write_csv("./data/student_happiness.csv")
+
+```
+
+Now we create a sample of students by sampling from the population dataframe.
+
+```{r}
+
+samp_df <- sample_n(pop_df, size = 200)
+
+```
+
+
+
+
+On the modeling side, we can first start with a very simple model with only one predictor.
+
+```{r}
+
+happiness_zoom <- lm(happiness ~ min_zoom, data = samp_df)
+summary(happiness_zoom)
+
+```
+
+Next, we can look at what happens with a more complex model with multiple predictors. Pay attention to how the $R^2$ value changes.
+
+```{r}
+
+happiness_all <- lm(happiness ~ min_outdoors + min_zoom + civil + mechanical + electrical + undergrad + masters + phd, data = samp_df)
+summary(happiness_all)
+
+```
+
+An alternative way of writing the full model
+
+```{r}
+happiness_all <- lm(happiness ~ min_outdoors + min_zoom + discipline + standing, data = samp_df)
+summary(happiness_all)
+
+
+```
+
+
+
+

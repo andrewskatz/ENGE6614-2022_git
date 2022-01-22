@@ -1,0 +1,149 @@
+---
+title: "Week 7 Slides"
+subtitle: "Logistic Regression"
+author: "Andrew Katz"
+institute: "Department of Engineering Education <br><br> Virginia Tech"
+date: "2021-03-02"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+```{r setup-chunk, echo = FALSE, message = FALSE}
+library(tidyverse)
+library(car)
+
+
+xaringanExtra::use_panelset()
+
+
+```
+
+
+---
+
+.center[
+
+# Week 7 Announcements
+
+]
+
+--
+### Problem Set 1 is being graded
+
+* I won't be releasing solutions aside from the sample plots. If you have questions about your assignment, please let me know and we can arrange a time to meet. 
+
+--
+
+### Course notes in a book available at this URL: https://andrewskatz.github.io/test_course_note/
+
+--
+
+### Don't forget about the feedback surveys
+
+---
+
+# Today's plan
+
+--
+
+* Chapter 7 review
+
+--
+
+* Logistic regression discussion
+
+--
+
+* Discuss sample paper
+
+--
+
+* Logistic regression demo
+
+--
+
+* Exercise in R
+
+
+---
+class: center, inverse, middle
+
+# Linear Regression Review
+
+---
+
+class: center, inverse, middle
+
+# Logistic Regression
+
+
+---
+
+
+# Why Logistic Regression?
+
+
+---
+
+# Modeling Binary Outcomes
+
+
+---
+
+
+# What is an Odds Ratio?
+
+
+
+---
+
+# Maximum Likelihood Estimation
+
+
+---
+
+# Assessing the Model
+
+--
+
+.pull-left[
+Deviance statistics
+]
+
+
+
+.pull-right[
+$R^2$  
+]
+
+
+
+
+---
+
+# What are the different methods of logistic regression?
+
+
+---
+
+# Assumptions
+
+1. Linearity
+
+
+2. Independence of errors
+
+
+3. Multicollinearity
+
+
+---
+
+# What are interactions?
+
+
+
