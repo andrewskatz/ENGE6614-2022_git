@@ -45,7 +45,7 @@ output:
 
 ### A note about course material organization
 * I do know that we could be using Canvas for organizing materials
-* Tools like Google Drive, Slack, and GitHub are common in practice
+* Tools like Google Drive, Google Groups(?), Slack, and GitHub are common in practice
 * I want you all to be familiar and comfortable with these tools by the end of the semester 
 * Consider this a low-stakes opportunity to learn even more new tools (yay!)
 

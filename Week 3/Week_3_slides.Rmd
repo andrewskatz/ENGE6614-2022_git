@@ -3,7 +3,7 @@ title: "Week 3 Slides"
 subtitle: "Data Cleaning, Organizing, Describing, and Communicating"
 author: "Andrew Katz"
 institute: "Department of Engineering Education <br><br> Virginia Tech"
-date: "2021-02-02"
+date: "2022-02-01"
 output:
   xaringan::moon_reader:
     lib_dir: libs
