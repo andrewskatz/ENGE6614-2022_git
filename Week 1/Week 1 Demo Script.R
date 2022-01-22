@@ -6,13 +6,13 @@ z <- "this is a string"
 
 a <- x + y
 
-
+library(discovr)
 
 
 # installing packages
 
 
-install.packages("")
+install.packages("tidyverse")
 
 
 # loading packages
