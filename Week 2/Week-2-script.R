@@ -11,8 +11,8 @@ plot(x, y_is_a_very_long_name)
 
 # Getting your R environment set up ----
 
-## One of the first things you will have in any script or .rmd file is a section to load
-## all the libraries that you use in that script.
+# One of the first things you will have in any script or .rmd file is a section to load
+# all the libraries that you use in that script.
 
 # you can install a library by using the install.packages() function, for example:
 install.packages("tidyverse")
@@ -136,8 +136,6 @@ prior_survey %>%
   summarize(n = n()) %>% 
   ggplot(mapping = aes(x = survey_response_num, y = survey_item, fill = n)) +
   geom_tile()
-
-
 
 
 

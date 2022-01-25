@@ -621,6 +621,10 @@ $y_i = \beta_0 + \beta_1 * X_{1i}^2 + \beta_2*X_{2i}^3 + \cdots + \epsilon_i$
 * The terminology around this can be a little confusing. We will try a simulation in class to see if we can gain some intuition.
 **Switch to simulation**
 
+[Apps Based Activities for Communicating and Understand Statistics](https://shiny.abdn.ac.uk/Stats/apps/)
+
+
+
 --
 
 ### Confidence intervals
