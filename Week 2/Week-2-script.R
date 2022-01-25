@@ -6,7 +6,7 @@ y_is_a_very_long_name <- 2* x + 3
 
 
 
-plot(x, y)
+plot(x, y_is_a_very_long_name)
 
 
 # Getting your R environment set up ----
@@ -53,8 +53,9 @@ list.files()
 ### Assuming you have directed yourself to the correct place, you can now read in 
 ### the file(s) that you want to be working with
 
-prior_survey <- read_csv("ENGE_5714_2021_pre_survey.csv")
+prior_survey <- read_csv("ENGE 6614 Prior Knowledge_cleaned.csv")
 
+# if you have the full file path, you could use something like this instead
 prior_survey <- read_csv("C:/desktop/my super sweet course folder/Week 2 is the best/ENGE_5714_survey.csv")
 
 
@@ -69,37 +70,50 @@ view(prior_survey)
 
 
 
-prior_survey <- prior_survey %>% clean_names() # from janitor package
+# if you want to clean up the variable names, you can use the clean_names() function from the janitor package
+prior_survey_cleaned <- prior_survey %>% clean_names() # from janitor package
 
+#the clean_names() function will change this variable name from...
 prior_survey$`I have heard the term "non-parametric statistics" before`
+# to this...
+prior_survey$i_have_taken_a_quantitative_research_methods_course_before
 
+
+# then you can use something like the table() function to see the values for the frequency of each response
 
 table(prior_survey$i_have_taken_a_quantitative_research_methods_course_before)
 
-#using describe() from the psych package
+#using describe() from the psych package, you can see summary statistics for each variable
 describe(prior_survey)
 
 
 ## Plotting data
+# we will use ggplot() to do a lot of plotting data throughout this course. Here are some example uses...
 
 ggplot(data = prior_survey, mapping = aes(x = `I know what a type I error is`)) +
-  geom_bar() +
-  coord_flip()
+  geom_bar() + #geom_bar() specifies the type of plot we want to make
+  coord_flip() #coord_flip puts the variable we specified to be on the x-axis on the y-axis instead. We do this for text variables to make it easier to read
 
 
-
+# when we talk more about data cleaning we will talk about data wrangling and reshaping. The gather() and spread() functions (or pivot_longer() and pivot_wider() will be very important)
+# let's see what gather() does
 prior_survey %>% 
   gather(key = "survey_item", value = "survey_response") %>%
+  view()
   
   
-  
-  prior_survey %>% 
+# now we can combine gather and plotting to plot all the responses at one time
+prior_survey %>% 
   gather(key = "survey_item", value = "survey_response") %>% 
   group_by(survey_item, survey_response) %>% 
   summarize(n = n()) %>% 
   ggplot(mapping = aes(x = survey_response, y = survey_item, fill = n)) +
-  geom_tile()
+  geom_tile() +
+  labs(title = "Prior Knowledge Survey Responses",
+       x = "Survey response",
+       y = "Survey item")
 
+# notice the x-axis and how jumbled that is. This is something we would want to fix
 
 ## This plot is okay for giving a general sense of what is going on in these plots
 ## but there are a bunch of other ways to go about doing this
