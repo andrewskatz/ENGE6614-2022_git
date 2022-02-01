@@ -104,7 +104,7 @@ ggplot(data = x_df, mapping = aes(x = x_col)) +
 ```{r pre-survey}
 
 ## load in the data
-survey_df <- read_csv("./data/ENGE_5714_2021_pre_survey.csv")
+survey_df <- read_csv("./data/ENGE 6614 Prior Knowledge_cleaned.csv")
 survey_df <- survey_df %>% clean_names()
 
 ```
@@ -213,7 +213,7 @@ A quick note on filters
 
 ```{r}
 
-filter(data = survey_df, required == "yes")
+filter(survey_df, required == "yes")
 
 filtered_df <- survey_df %>% filter(required == "yes")
 
@@ -317,9 +317,8 @@ mydata$totalFRL_1718<-as.numeric(mydata$totalFRL_1718)
 # some columns have a percent symbol, which you will need to remove before coercing to numeric data type
 
 mydata <- mydata %>%
-  mutate(totalper_0809 = str_remove(totalper_0809, "%"))
+  mutate(totalper_0809 = str_remove(totalper_0809, pattern = "%"))
 
-str_replace()
 
 mydata$totalper_0809 <- as.numeric(mydata$totalper_0809)
 
