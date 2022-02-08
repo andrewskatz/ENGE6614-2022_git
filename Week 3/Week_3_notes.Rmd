@@ -102,12 +102,22 @@ ggplot(data = x_df, mapping = aes(x = x_col)) +
 
 
 ```{r pre-survey}
-
 ## load in the data
+```
+
+
+```{r}
+survey_df
+```
+
+
+```{r pre-survey}
 survey_df <- read_csv("./data/ENGE 6614 Prior Knowledge_cleaned.csv")
 survey_df <- survey_df %>% clean_names()
 
 ```
+
+
 
 
 ```{r geom-bar}
@@ -125,6 +135,12 @@ Notice that the ordering is not quite what we would want. It is alphabetical. Tr
 
 Here is one way:
 
+```{r}
+
+glimpse(survey_df)
+
+```
+
 
 
 ```{r}
@@ -139,15 +155,16 @@ survey_df$i_have_taken_a_quantitative_research_methods_course_before <- factor(s
                                                                                ordered = TRUE)
 
 
+
 ## Now try plotting
 
 survey_df %>% 
   ggplot(aes(x = i_have_taken_a_quantitative_research_methods_course_before)) +
   geom_bar() +
-  coord_flip() +
   labs(x = "I have taken a quantitative research methods course before",
        y = "Count",
-       title = "Reordered Example")
+       title = "Reordered Example") +
+  coord_flip()
 
 
 
@@ -281,8 +298,12 @@ mydata <- read_csv("./data/Free Reduced Lunch by Schools and Grade Structures 20
 
 
 # check the structure of the data (this output is a bit long)
-str(mydata)
+#str(mydata) # I would recommend not running this line because it takes so long to print out
+
 str(mydata$total_2017)
+# a faster alternative to str() is glimpse()
+glimpse(mydata)
+
 ```
 
 

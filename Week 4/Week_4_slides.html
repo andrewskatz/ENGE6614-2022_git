@@ -4,8 +4,8 @@
     <title>Week 4 Slides</title>
     <meta charset="utf-8" />
     <meta name="author" content="Andrew Katz" />
-    <meta name="date" content="2021-02-09" />
-    <script src="libs/header-attrs-2.6/header-attrs.js"></script>
+    <meta name="date" content="2022-02-08" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
     <link href="libs/panelset-0.2.4/panelset.css" rel="stylesheet" />
@@ -19,11 +19,42 @@ class: center, middle, inverse, title-slide
 ## Assumptions and Correlations
 ### Andrew Katz
 ### Department of Engineering Education <br><br> Virginia Tech
-### 2021-02-09
+### 2022-02-08
 
 ---
 
 
+```
+## Warning: package 'tidyverse' was built under R version 4.0.5
+```
+
+```
+## Warning: package 'ggplot2' was built under R version 4.0.5
+```
+
+```
+## Warning: package 'tibble' was built under R version 4.0.5
+```
+
+```
+## Warning: package 'tidyr' was built under R version 4.0.5
+```
+
+```
+## Warning: package 'readr' was built under R version 4.0.5
+```
+
+```
+## Warning: package 'dplyr' was built under R version 4.0.5
+```
+
+```
+## Warning: package 'forcats' was built under R version 4.0.5
+```
+
+```
+## Warning: package 'car' was built under R version 4.0.5
+```
 
 
 ---
@@ -140,7 +171,7 @@ class: inverse, middle, center
 `\(\lim_{n\to\infty} \frac{\overline{X_n} - \mu}{\frac{\sigma}{\sqrt{n}}} \sim \mathcal{N} (0, \,1)\)` 
 
 --
-* Note that `\(\frac{\sigma}{n}\)` is the standard error (which is the standard deviation of the sampling distribution of the sample mean). This is the same thing that we do when we need to center a random variable by first subtracting its mean and then dividing by its standard deviation: `\(\frac{x_i - \overline{x}}{s}\)`
+* Note that `\(\frac{\sigma}{\sqrt{n}}\)` is the standard error (which is the standard deviation of the sampling distribution of the sample mean). This is the same thing that we do when we need to center a random variable by first subtracting its mean and then dividing by its standard deviation: `\(\frac{x_i - \overline{x}}{s}\)`
 
 --
 
@@ -333,12 +364,12 @@ head(min_data)
 ## # A tibble: 6 x 2
 ##   discipline minutes
 ##   &lt;chr&gt;        &lt;dbl&gt;
-## 1 civ           69.4
-## 2 civ           95.0
-## 3 civ           77.2
-## 4 civ           75.6
-## 5 civ           66.4
-## 6 civ           88.1
+## 1 civ           81.9
+## 2 civ           80.5
+## 3 civ           89.8
+## 4 civ           65.5
+## 5 civ          104. 
+## 6 civ           80.9
 ```
 
 ]
@@ -360,9 +391,9 @@ leveneTest(minutes ~ discipline, data = min_data)
 
 ```
 ## Levene's Test for Homogeneity of Variance (center = median)
-##       Df F value   Pr(&gt;F)   
-## group  1    9.31 0.002933 **
-##       98                    
+##       Df F value    Pr(&gt;F)    
+## group  1  24.426 3.188e-06 ***
+##       98                      
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
@@ -512,7 +543,7 @@ class: inverse, middle, center
 
 --
 
-* To standardize the covariance to a value that is easier to work with across ranges of values, we use the correlatoin coefficient. 
+* To standardize the covariance to a value that is easier to work with across ranges of values, we use the correlation coefficient. 
 
 --
 
@@ -524,11 +555,11 @@ class: inverse, middle, center
 
 --
 
-* This is a _bivariate_ correlation coefficient because it is looking at the correlation between _two variables_. There are also partial correlation coefficients, which look at the correlation between two variables whil controlling for other variables. 
+* This is a _bivariate_ correlation coefficient because it is looking at the correlation between _two variables_. There are also partial correlation coefficients, which look at the correlation between two variables while controlling for other variables. 
 
 --
 
-* We can calculate the correlatoin between two variables using the `cor()` or `cor.test()` functions, which are part of base R. 
+* We can calculate the correlation between two variables using the `cor()` or `cor.test()` functions, which are part of base R. 
 
 
 ---
@@ -558,7 +589,7 @@ class: inverse, middle, center
 
 --
 
-* For `\(r\)` = -.3, you might see a confidence interval like (-0.25, 0.35) - the interval is symmetric about our `\(r\)` correlation coefficient - 95% of the time, that interval will contain the true value for the population
+* For `\(r\)` = .05, you might see a confidence interval like (-0.25, 0.35) - the interval is symmetric about our `\(r\)` correlation coefficient - 95% of the time, that interval will contain the true value for the population
 
 
 

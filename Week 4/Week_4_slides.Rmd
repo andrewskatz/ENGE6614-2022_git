@@ -3,7 +3,7 @@ title: "Week 4 Slides"
 subtitle: "Assumptions and Correlations"
 author: "Andrew Katz"
 institute: "Department of Engineering Education <br><br> Virginia Tech"
-date: "2021-02-09"
+date: "2022-02-08"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -477,7 +477,7 @@ $cov(x,y) = \frac{\sum(x_i - \overline{x})(y_i - \overline{y})}{N - 1}$
 
 --
 
-* To standardize the covariance to a value that is easier to work with across ranges of values, we use the correlatoin coefficient. 
+* To standardize the covariance to a value that is easier to work with across ranges of values, we use the correlation coefficient. 
 
 --
 
@@ -489,11 +489,11 @@ $r = \frac{cov_{xy}}{s_xs_y} = \frac{\sum(x_i - \overline{x})(y_i - \overline{y}
 
 --
 
-* This is a _bivariate_ correlation coefficient because it is looking at the correlation between _two variables_. There are also partial correlation coefficients, which look at the correlation between two variables whil controlling for other variables. 
+* This is a _bivariate_ correlation coefficient because it is looking at the correlation between _two variables_. There are also partial correlation coefficients, which look at the correlation between two variables while controlling for other variables. 
 
 --
 
-* We can calculate the correlatoin between two variables using the `cor()` or `cor.test()` functions, which are part of base R. 
+* We can calculate the correlation between two variables using the `cor()` or `cor.test()` functions, which are part of base R. 
 
 
 ---
@@ -523,7 +523,7 @@ $r = \frac{cov_{xy}}{s_xs_y} = \frac{\sum(x_i - \overline{x})(y_i - \overline{y}
 
 --
 
-* For $r$ = -.3, you might see a confidence interval like (-0.25, 0.35) - the interval is symmetric about our $r$ correlation coefficient - 95% of the time, that interval will contain the true value for the population
+* For $r$ = .05, you might see a confidence interval like (-0.25, 0.35) - the interval is symmetric about our $r$ correlation coefficient - 95% of the time, that interval will contain the true value for the population
 
 
 

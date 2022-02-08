@@ -107,6 +107,7 @@ mydata <- read_rds("FRL.RDS")
 
 
 
+
 ### Reading CSV ---- 
 
 getwd()
@@ -165,9 +166,11 @@ newdf <- newdf %>%
 str(mydata$total_2008)
 str(newdf$total_2008)
 
-
+rnorm(20, mean = 10, sd = 1)
 
 ### Filtering, Selecting, Grouping, and Summarizing ----
+
+
 
 
 # A basic operation we do a lot is to filter the data so that we are working with a subset of all that we have
@@ -253,8 +256,6 @@ newdf %>%
   ylim(0, 1000)
 
 typeof(newdf$totalFT_2008)
-
-
 
 
 
