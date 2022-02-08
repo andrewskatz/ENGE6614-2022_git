@@ -46,9 +46,6 @@ xaringanExtra::use_panelset()
 
 --
 
-### I am going to continue posting resources that I think you all might find helpful in the #resources channel in the course Slack workspace
-
---
 
 ### I will update the key terms list this week
 

@@ -53,7 +53,7 @@ list.files() # run this to make sure that your file is in your current working d
 
 
 
-seniorSurvey_df <- read_csv("./data/seniorsurvey.csv") # replace text in the parentheses with your file name
+seniorSurvey_df <- read_csv("./Week 4/data/seniorsurvey.csv") # replace text in the parentheses with your file name
 
 
 # After loading, it is always nice to just see how things loaded in.
@@ -143,20 +143,24 @@ my_scores <- my_scales$scores
 # [5,] 3.00 3.333333 3.4
 # [6,] 4.50 4.333333 3.4
 
+my_df <- as_tibble(my_scores)
+
 # now, lets build a clean dataframe to prep for analysis - by clean in this case I mean that we have replaced item scores from the scales with
 # their means and also that we have fixed the NAs that don't belong (for participation variables, in this dataset, the NAs should be 0s)
-my_df <- tibble(seniorSurvey.df[1:5],my_scores, seniorSurvey.df[19:25])
+
+# this is broke
+#my_df <- bind_cols(seniorSurvey_df[1:5],my_scores, seniorSurvey_df[19:25])
 
 
 # old school method to replace NAs in specific columns
-my_df$ParticipateServiceL[is.na(mydf$ParticipateServiceL)] <- 0 
-my_df$ParticipateCService[is.na(mydf$ParticipateCService)] <- 0 
-my_df$ParticipateStudyAbroadSemester[is.na(mydf$ParticipateStudyAbroadSemester)] <- 0 
+#my_df$ParticipateServiceL[is.na(mydf$ParticipateServiceL)] <- 0 
+#my_df$ParticipateCService[is.na(mydf$ParticipateCService)] <- 0 
+#my_df$ParticipateStudyAbroadSemester[is.na(mydf$ParticipateStudyAbroadSemester)] <- 0 
 # mydf$ParticipateInternCoop...[is.na(mydf$ParticipateInternCoop...)] <- 0 ------- this variable read in cumbersomely named and I don't care about it right now so I'll skip
 
 
 # alternative method to replace NAs in specific columns
-my_df <- tidyr::replace_na(my_df, list(ParticipateCService = 0, ParticipateStudyAbroadSemester = 0, ParticipateServiceL = 0))
+#my_df <- tidyr::replace_na(my_df, list(ParticipateCService = 0, ParticipateStudyAbroadSemester = 0, ParticipateServiceL = 0))
 
 
 
@@ -179,7 +183,7 @@ print(my_spearman_correlations)
 
 # If we need p values though, we need to change to something else -- corr.test
 
-my_results <- corr_test(my_df$SJCa,my_df$DA)
+my_results <- corr.test(my_df$SJCa,my_df$DA)
 
 # and then I can pull out results from this list or print it.  I'll do both 
 print(my_results,short=FALSE)

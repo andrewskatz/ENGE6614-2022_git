@@ -80,9 +80,6 @@ class: center, middle, inverse, title-slide
 
 --
 
-### I am going to continue posting resources that I think you all might find helpful in the #resources channel in the course Slack workspace
-
---
 
 ### I will update the key terms list this week
 
@@ -364,12 +361,12 @@ head(min_data)
 ## # A tibble: 6 x 2
 ##   discipline minutes
 ##   &lt;chr&gt;        &lt;dbl&gt;
-## 1 civ           81.9
-## 2 civ           80.5
-## 3 civ           89.8
-## 4 civ           65.5
-## 5 civ          104. 
-## 6 civ           80.9
+## 1 civ           58.5
+## 2 civ           72.3
+## 3 civ          102. 
+## 4 civ          111. 
+## 5 civ           87.2
+## 6 civ           78.1
 ```
 
 ]
@@ -391,9 +388,9 @@ leveneTest(minutes ~ discipline, data = min_data)
 
 ```
 ## Levene's Test for Homogeneity of Variance (center = median)
-##       Df F value    Pr(&gt;F)    
-## group  1  24.426 3.188e-06 ***
-##       98                      
+##       Df F value  Pr(&gt;F)  
+## group  1  5.0526 0.02683 *
+##       98                  
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
