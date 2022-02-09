@@ -185,6 +185,7 @@ print(my_spearman_correlations)
 
 my_results <- corr.test(my_df$SJCa,my_df$DA)
 
+
 # and then I can pull out results from this list or print it.  I'll do both 
 print(my_results,short=FALSE)
 my_results$r # correlation coefficient
@@ -196,6 +197,8 @@ my_results$p # p-value
 # i need to jitter my points (take geom="jitter" out if you want to see why)
 qplot(SJCa,DA,data=my_df,geom="jitter")
 
+
+
 qqnorm(my_df$SJCa, frame = FALSE)
 qqline(my_df$SJCa, col = "steelblue", lwd = 1.5)
 
@@ -205,3 +208,33 @@ my_df %>% ggplot(aes(x = SJCa)) +
 
 # other functions we used today in class were describe() and also the q-q plot creation
 # to investigate normality assumption copying syntax from the Field, Miles, & Field book
+
+
+
+library(car)
+
+civ_min <- rnorm(n = 500, mean = 80, sd = 15)
+che_min <- rnorm(n = 500, mean = 95, sd = 17)
+discipline <- rep(c("civ", "che"), each = 500)
+minutes <- c(civ_min, che_min)
+min_data <- tibble(discipline = discipline, minutes = minutes)
+
+leveneTest(minutes, discipline, data = min_data)
+
+
+min_data %>% 
+  ggplot(aes(x = discipline, y = minutes)) +
+  coord_flip() +
+  geom_boxplot()
+
+min_data %>% 
+  ggplot(aes(x = minutes, fill = discipline)) +
+  geom_histogram(alpha = 0.5, position = "identity") +
+  theme_bw() +
+  labs(x = "Minutes",
+       y = "Count",
+       title = "Chemical and Civil Engineering Student Study Minutes",
+       fill = "Discipline") +
+  theme(plot.title = element_text(hjust = 0.5, size = 20))
+  
+
