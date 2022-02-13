@@ -3,7 +3,7 @@ title: "Week 5 Slides"
 subtitle: "Simple Regression"
 author: "Andrew Katz"
 institute: "Department of Engineering Education <br><br> Virginia Tech"
-date: "2021-02-16"
+date: "2022-02-15"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -32,7 +32,7 @@ xaringanExtra::use_panelset()
 ]
 
 --
-### Problem Set 1 is due Thursday :)
+### Problem Set 1 is due Wednesday :)
 
 * Please let me know if you have questions!
 
