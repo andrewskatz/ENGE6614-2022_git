@@ -422,8 +422,8 @@ test_nest
 ### Teacher salary linear regression demo  ########
 
 
-file_path_prin <- "./data/principalSalaries.csv"
-file_path_tea <- "./data/teacherSalaries.csv"
+file_path_prin <- "./Week 5/data/principalSalaries.csv"
+file_path_tea <- "./Week 5/data/teacherSalaries.csv"
 
 principal_salaries <- read_csv(file_path_prin)
 teacher_salaries <- read_csv(file_path_tea)
@@ -440,11 +440,11 @@ public_schools_teacher_salaries <- teacher_salaries %>%
   filter(str_detect(div_name,"Public")) %>% 
   select(div_num,Av14_16T)
 
-public_schools_teacher_salaries$div_num <- as.numeric(public_schools_steacher_salaries$div_num)
+public_schools_teacher_salaries$div_num <- as.numeric(public_schools_teacher_salaries$div_num)
 
 
 combined_salaries <- inner_join(public_schools_teacher_salaries, 
-                                public_chools_principal_salaries,
+                                public_schools_principal_salaries,
                                 by="div_num")
 
 # this section helps make tables for formatting in r or printing to csv file
@@ -467,13 +467,14 @@ summary(fit1)
 
 
 
-
+# for plotting, the scatter plot with teacher versus principal is going to be more helpful
 combined_salaries %>% 
   ggplot(aes(x = Av14_16T,y = Av14_16P)) +
   geom_point() +
   geom_smooth(method = "lm")
 
 
+## something like this is not very helpful
 combined_salaries %>% 
   ggplot(aes(x=div_num,y=Av14_16P)) +
   geom_point() +
