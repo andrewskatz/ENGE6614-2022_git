@@ -6,7 +6,7 @@ require(kableExtra)
 library(broom)
 
 
-### Data generation demo - one set sample size ##########
+### Data generation demo - one set sample size ---
 
 
 #store the sample size that we want to use
@@ -118,15 +118,20 @@ summary(fit_demo_max)
 
 # let's do some fancy stuff to make multiple models at once rather than having to write new lines for each model
 # some of these ideas are taken from the R4DS book chapter 25
-test_nest <- demo_df_long %>% nest(data = -sd_val)
+test_nest <- demo_df_long %>% group_by(sd_val) %>% nest()
 
 
-linear_model <- function(df) {
+
+
+
+fun_linear_model <- function(df) {
   lm(y_val ~ x, data = df)
 }
 
 
-models <- map(test_nest$data, linear_model)
+models <- map(test_nest$data, fun_linear_model)
+list_names <- c("one", "two", "three", "four")
+names(models) <- list_names
 
 summary(models[[2]])
 summary(models[[3]])
@@ -409,8 +414,7 @@ test_nest <- test_nest %>%
 
 # finally, we can unnest the models to make it easier to compare them with each other in a data frame
 test_nest <- test_nest %>% 
-  mutate(glance = map(model, broom::glance)) %>% 
-  unnest(glance)
+  mutate(tidy = map(model, broom::tidy))
 
 # and look at the different models by just calling the data frame
 test_nest
@@ -420,6 +424,7 @@ test_nest
 
 
 ### Teacher salary linear regression demo  ########
+# (These are examples of one way to work on the week 5 exercise rmd file)
 
 
 file_path_prin <- "./Week 5/data/principalSalaries.csv"

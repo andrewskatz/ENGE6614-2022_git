@@ -278,7 +278,7 @@ $R^2 = \frac{SS_M}{SS_T}$
 * If we take the _mean sum of squares_, we get $MS_R$ and $MS_M$, which are used to calculate the F statistic:
 
 .center[
-$F = \frac{MS_R}{MS_M}$
+$F = \frac{MS_M}{MS_R}$
 ]
 
 
