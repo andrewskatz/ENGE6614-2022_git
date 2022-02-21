@@ -248,9 +248,9 @@ ca_df$leverage <- hatvalues(model_all)
 ca_df$covariance.ratios <- covratio(model_all)
 ```
 
-Now that we have all of the extra model fit statistics calculated, we can add a new olumn using a different method than what he does in the textbook (but this accomplishes the same task).
+Now that we have all of the extra model fit statistics calculated, we can add a new column using a different method than what he does in the textbook (but this accomplishes the same task).
 
-We are using a combination of mutate() and case_when() instead of the traditional logical test subsetting that we see in the bookon pp. 289-290
+We are using a combination of mutate() and case_when() instead of the traditional logical test subsetting that we see in the book on pp. 289-290
 
 ```{r}
 ca_df <- ca_df %>% 
@@ -479,7 +479,7 @@ End detour
 
 ### Generating data for student happiness exercise.
 
-We are going to student happiness scores on a scale from 0 to 100 as a function of their time spent outdoors, time spent on Zoom, class standing, and department. 
+We are going to generate student happiness scores on a scale from 0 to 100 as a function of their time spent outdoors, time spent on Zoom, class standing, and department. 
 
 
 ```{r}

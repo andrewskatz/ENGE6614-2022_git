@@ -3,7 +3,7 @@ title: "Week 6 Slides"
 subtitle: "Multiple Regression"
 author: "Andrew Katz"
 institute: "Department of Engineering Education <br><br> Virginia Tech"
-date: "2021-02-23"
+date: "2022-02-22"
 output:
   xaringan::moon_reader:
     lib_dir: libs
