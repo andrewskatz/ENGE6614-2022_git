@@ -31,6 +31,7 @@ Method 1 for quickly getting summary statistics for the data you have, using the
 
 ```{r}
 summary(ca_df)
+
 ```
 
 Method 2, using the describe() function from the psych package
@@ -50,7 +51,7 @@ Spot check: where do the "se" values come from?
 
 ca_df %>% 
   ggplot(aes(x = Aggression)) +
-  geom_histogram()
+  geom_histogram(color="white")
 
 
 ```
@@ -385,7 +386,7 @@ ca_df_long %>%
 
 ### Detour: Cumulative Distribution Function (CDF), empirical CDF, and QQ Plot Discussion
 
-Our goal here is to visualize the cumulative distribution function for a normal distribution as a stepping stone toward undestanding QQ plots. We will use plots of the empirical cumulative distribution function (eCDF)
+Our goal here is to visualize the cumulative distribution function for a normal distribution as a stepping stone toward understanding QQ plots. We will use plots of the empirical cumulative distribution function (eCDF)
 
 
 As a way to visualize our data. Although we have not discussed eCDFs before, they are another tool you can use to visualize the distribution of quantitative data.
