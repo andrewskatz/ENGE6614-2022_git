@@ -3,7 +3,7 @@ title: "Week 7 Slides"
 subtitle: "Logistic Regression"
 author: "Andrew Katz"
 institute: "Department of Engineering Education <br><br> Virginia Tech"
-date: "2021-03-02"
+date: "2022-03-01"
 output:
   xaringan::moon_reader:
     lib_dir: libs

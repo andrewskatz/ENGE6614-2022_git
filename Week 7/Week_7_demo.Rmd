@@ -423,7 +423,10 @@ samp_df_4 %>%
 ```{r}
 samp_df_4 %>% 
   ggplot(aes(x = gpa, fill = as_factor(persist_bin))) +
-  geom_histogram(alpha = 0.2, position = "identity")
+  geom_histogram(alpha = 0.2, position = "identity") +
+  labs(x = "GPA (out of 4.0",
+       y = "Count",
+       fill = "Response")
 ```
 
 
