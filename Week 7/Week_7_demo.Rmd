@@ -1,7 +1,7 @@
 ---
 title: "Week 7 Demo"
 author: "Katz"
-date: "3/02/2021"
+date: "3/01/2022"
 output: html_document
 ---
 
@@ -11,6 +11,7 @@ library(tidyverse)
 library(broom)
 library(psych)
 
+set.seed(42)
 ```
 
 # Week 7 - logistic regression
@@ -44,6 +45,7 @@ persistence_prob <- c(0.8, 0.2)
 Now we will generate the actual sample of 500 students
 
 ```{r}
+
 samp_size <- 500
 
 disc_samp <- sample(x = disciplines, size = samp_size, prob = disciplines_prob, replace = TRUE)
@@ -55,6 +57,8 @@ samp_df <- tibble(discipline = disc_samp,
                   know_eng = know_samp,
                   persist = pers_samp,
                   gpa = round(rnorm(n = samp_size, mean = 3, sd = 0.3), 2))
+
+summary()
 ```
 
 
@@ -143,13 +147,18 @@ samp_df_2 <- samp_df_2 %>%
 We will create a vector that samples depending on the value of the persistence probability at that index. That value varies depending on the discipline for that student at that index value in the vector.
 
 ```{r}
+
 persist_outcome <- modify(.x = samp_df_2$persist_prob, .f = ~rbinom(n = 1, size = 1, prob = .x))
+
 ```
 
 Now we add that persistence outcome column to our dataframe 
 ```{r}
 samp_df_2$persist_bin <- persist_outcome
 ```
+
+
+
 
 Up to now, we have simulated the data collection process. This is the point where we would typically be cleaning the data and starting our analysis, 
 
@@ -177,6 +186,11 @@ Now, model the outcome (persistence) as a function of three predictor variables 
 ```{r}
 model_2 <- glm(persist_bin ~ discipline + know_eng + gpa, data = samp_df_2, family = binomial())
 ```
+
+```{r}
+samp_df_2 %>% count(discipline)
+```
+
 
 And examine the model output with either `summary()`...
 ```{r}

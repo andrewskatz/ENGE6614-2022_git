@@ -37,11 +37,26 @@ _italics_
 As usual, start by reading in the data.
 ```{r}
  
-burnout_df <- read.delim("Burnout.dat")
+burnout_df <- read.delim("./data/Burnout.dat")
 
 ```
 
 
+
+```{r}
+describe(burnout_df)
+```
+```{r}
+burnout_df %>% 
+  count(burnout)
+
+```
+
+
+
+```{r}
+burnout_df
+```
 
 
 
